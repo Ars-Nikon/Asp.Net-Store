@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.title = "Order";
+
+    int i = 1;
+}
+@model OrderViewModel
+
+<div class="container">
+    @if (Model.phones.Count() == 0)
+    {
+        <h1 class="text-center">Order Is Empty</h1>
+    }
+    else
+    {
+        <h1 class="text-center">Order</h1>
+        <form asp-action="FinalOrder" asp-controller="Home" method="post">
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Price for one</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.phones)
+                    {
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@item.Name</td>
+                            <td><input type="number" asp-for="@Model.Order[item.Id.ToString()]" value="1" min="1" max="@item.Quantity" /></td>
+                            <td>@item.Price</td>
+                        </tr>
+
+                        i++;
+                    }
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-danger btn-lg"><h5>BUY</h5></button>
+        </form>
+    }
+</div>

@@ -1,0 +1,75 @@
+﻿@model Phone
+
+@{
+    ViewBag.title = Model.Name;
+}
+
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Product main img -->
+            <div class="col-md-5 col-md-push-2">
+                <div id="product-main-img">
+                    <div class="product-preview">
+                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Path_image))" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- /Product main img -->
+            <!-- Product thumb imgs -->
+            <div class="col-md-2  col-md-pull-5">
+
+            </div>
+            <!-- /Product thumb imgs -->
+            <!-- Product details -->
+            <div class="col-md-5">
+                <div class="product-details">
+                    <h2 class="product-name">@Model.Name</h2>
+                    <div>
+                        <h3 class="product-price">@Model.Price?.ToString("##,#") ₽</h3>
+
+                    </div>
+                    @if (Model.Screen_type != null)
+                    {
+                        <p>Screen: @Model.Screen_type</p>
+                    }
+                    @if (Model.Screen != null)
+                    {
+                        <p>Screen: @Model.Screen</p>
+                    }
+                    @if (Model.ROM != null)
+                    {
+                        <p>ROM: @Model.ROM</p>
+                    }
+                    @if (Model.RAM != null)
+                    {
+                        <p>RAM: @Model.RAM</p>
+                    }
+                    @if (Model.GPU != null)
+                    {
+                        <p>GPU: @Model.GPU</p>
+                    }
+                    @if (Model.CPU != null)
+                    {
+                        <p>CPU: @Model.CPU</p>
+                    }
+
+                    <div class="add-to-cart">
+                        <form asp-controller="Home" asp-action="AddProductInCart" method="post">
+                            <input type="hidden" asp-for="@Model.Id" name="Id" />
+                            <input type="hidden" name="Url" value="@Context.Request.Path/@Context.Request.QueryString" />
+                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- /product tab -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>

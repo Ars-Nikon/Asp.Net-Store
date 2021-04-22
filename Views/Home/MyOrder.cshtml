@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.title = "MyOrder";
+    int i = 1;
+}
+
+@model IEnumerable<OrderList>
+
+
+<div class="container">
+    @if (Model.Count() == 0)
+    {
+        <h1 class="text-center">MyOrder Is Empty</h1>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th>Order Id</th>
+                    <th>Date</th>
+                    <th>Products</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@item.Id</td>
+                        <td>@item.Date.ToString("g", new CultureInfo("de-DE"))</td>
+                        <td>
+                            @foreach (var order in item.Orders)
+                            {
+                                <p>@order.Name</p>
+
+                            }
+                        </td>
+                        <td>
+                            @foreach (var order in item.Orders)
+                            {
+                                <p>@order.Quantity</p>
+
+                            }
+                        </td>
+                        <td>
+                            @switch (@item.Status)
+                            {
+                                case "Canceled":
+                                    {
+                                        <h5 class="text-danger">@item.Status</h5>
+                                        break;
+                                    }
+                                case "Received":
+                                    {
+                                        <h5 class="text-success">@item.Status</h5>
+                                        break;
+                                    }
+
+                                default:
+                                    {
+                                        <h5 class="text-info">@item.Status</h5>
+                                        break;
+                                    }
+                            }
+                        </td>
+
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    }
+</div>

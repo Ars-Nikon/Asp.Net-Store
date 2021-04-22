@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.title = "Cart";
+
+}
+@model IEnumerable<Phone>
+
+<div class="section">
+
+    <div class="container">
+
+
+        @if (ViewBag.FinalPrice != 0)
+        {
+            <h1 class="text-center">Cart</h1>
+            <h1 class="text-left">FinalPrice: @ViewBag.FinalPrice.ToString("##,#") ₽</h1>
+        }
+
+        <div class="row">
+            <div id="store" class="col-md-9">
+
+                <div class="row align-items-start">
+
+                    @foreach (var item in Model)
+                    {
+
+                        <div class="col-md-4 col-xs-10">
+
+                            @if (item.Quantity == 0)
+                            {
+                                <div class="product close">
+                                    <form asp-action="DeleteInCart" asp-controller="Home" method="post">
+                                        <button type="submit" name="Id" value="@item.Id" class="btn"><i class="fa fa-close fa-2x"></i></button>
+                                    </form>
+                                    <div class="product-img">
+                                        @if (item.Path_image != null)
+                                        {
+                                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Path_image))" alt="">
+                                        }
+                                    </div>
+                                    <div class="product-body">
+                                        <h3 class="product-name"><a asp-action="Product" asp-controller="Home" asp-route-id="@item.Id">@item.Name</a></h3>
+                                        <h4 class="text-danger">Not available</h4>
+
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="product">
+                                    <form asp-action="DeleteInCart" asp-controller="Home" method="post">
+                                        <button type="submit" name="Id" value="@item.Id" class="btn"><i class="fa fa-close fa-2x"></i></button>
+                                    </form>
+                                    <div class="product-img">
+                                        @if (item.Path_image != null)
+                                        {
+                                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Path_image))" alt="">
+                                        }
+                                    </div>
+                                    <div class="product-body">
+                                        <h3 class="product-name"><a asp-action="Product" asp-controller="Home" asp-route-id="@item.Id">@item.Name</a></h3>
+                                        <h4 class="product-price">@item.Price?.ToString("##,#") ₽</h4>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Count() > 0)
+        {<div>
+                <a asp-action="Order" asp-controller="Home" class="btn btn-lg btn-danger">Order <i class="fa fa-shopping-cart"></i></a>
+            </div>
+        }
+        else
+        {
+            <h1 class="text-center">Cart Is Empty</h1>
+        }
+
+
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.title = "Edit";
+}
+@model ElectronicStore.Models.EditUserViewModel
+<div class="container ">
+    <form asp-action="Edit" method="post" asp-controller="Admin">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input type="hidden" name="Url" value="@ViewBag.UrlBack" />
+        <div class="form-group">
+            <input type="hidden" asp-for="Id" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label">Email</label>
+            <input type="email" asp-for="Email" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Name</label>
+            <input type="text" asp-for="Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserName" class="control-label">UserName</label>
+            <input type="text" asp-for="UserName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label><br />
+            <input type="password" id="password-input" asp-for="Password">
+            <label><input type="checkbox" class="password-checkbox">  Show Password</label>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-info btn-lg" />
+        </div>
+        <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $('body').on('click', '.password-checkbox', function () {
+                if ($(this).is(':checked')) {
+                    $('#password-input').attr('type', 'text');
+                } else {
+                    $('#password-input').attr('type', 'password');
+                }
+            });
+        </script>
+    </form>
+</div>

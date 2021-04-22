@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.title = "Phones";
+
+}
+
+@model PhonesAndCatalog
+
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- ASIDE -->
+
+
+
+            @await Component.InvokeAsync("BrandsList", Model)
+
+
+            <!-- /ASIDE -->
+            <!-- STORE -->
+            <div id="store" class="col-md-9">
+                <!-- store products -->
+                <div class="row align-items-start">
+
+                    @foreach (var item in Model.phones)
+                    {
+                        <!-- product -->
+                        <div class="col-md-4 col-xs-10">
+                            <div class="product">
+                                <div class="product-img">
+                                    @if (item.Path_image != null)
+                                    {
+                                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Path_image))" alt="">
+                                    }
+                                </div>
+                                <div class="product-body">
+                                    <h3 class="product-name"><a asp-action="Product" asp-route-id="@item.Id">@item.Name</a></h3>
+                                    <h4 class="product-price">@item.Price?.ToString("##,#") ₽</h4>
+                                    @if (User.IsInRole("admin"))
+                                    {
+                                        <div class="product-btns">
+                                            <a class="quick-view" asp-action="Edit" asp-controller="Home" asp-route-Url="@Context.Request.Path/@Context.Request.QueryString" asp-route-Id="@item.Id"><i class="fa fa-eye"></i><span class="tooltipp">Edit</span></a>
+                                            <form asp-controller="Home" asp-action="Delete" onsubmit="return check()" method="post">
+                                                <input type="hidden" asp-for="@item.Id" name="Id" />
+                                                <input type="hidden" name="Url" value="@Context.Request.Path/@Context.Request.QueryString"/>
+                                                <button class="btn quick-view btn-lg"><i class="fa fa-eye"></i><span class="tooltipp">Delete</span></button>
+                                            </form>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="add-to-cart">
+                                    <form asp-controller="Home" asp-action="AddProductInCart" method="post">
+                                        <input type="hidden" asp-for="@item.Id" name="Id" />
+                                        <input type="hidden" name="Url" value="@Context.Request.Path/@Context.Request.QueryString" />
+                                        <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    </form>
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /product -->
+
+                    }
+
+                    @if (User.IsInRole("admin"))
+                    {
+                        <script>
+                            function check() {
+                                return confirm("Delete this product?")
+                            }
+                        </script>
+                    }
+
+                </div>
+
+
+                <!-- /store products -->
+                <!-- store bottom filter -->
+
+
+
+                <ul page-model="@Model.PagingInfo" page-action-and-controller="@Context.Request.Path.Value" current-page="@Model.PagingInfo.CurrentPage" urlcontext="@Context"  urlpage="@Context.Request.QueryString"  class="store-pagination"></ul>
+
+               
+
+                <!-- /store bottom filter -->
+            </div>
+            <!-- /STORE -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>

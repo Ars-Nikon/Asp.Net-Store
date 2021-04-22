@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.title = "EditPhone";
+
+}
+
+@model Phone
+
+
+<div class="container m-1 p-1">
+
+    <form asp-controller="Home" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="danger" asp-validation-summary="All"></div>
+        <fieldset class="form-group">
+            <label asp-for="Name"></label>
+            <input class="form-control" type="text" asp-for="Name" />
+        </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="Price"></label>
+            <input class="form-control" type="number" asp-for="Price" />
+        </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="Screen_type"></label>
+            <input class="form-control" type="text" asp-for="Screen_type" />
+        </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="Screen"></label>
+            <input class="form-control" type="text" asp-for="Screen" />
+        </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="ROM"></label>
+            <input class="form-control" type="number" asp-for="ROM" />
+        </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="RAM"></label>
+            <input class="form-control" type="number" asp-for="RAM" />
+        </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="GPU"></label>
+            <input class="form-control" type="text" asp-for="GPU" />
+        </fieldset>
+        
+        <fieldset class="form-group">
+            <label asp-for="CPU"></label>
+            <input class="form-control" type="text" asp-for="CPU" />
+        </fieldset>
+        <fieldset class="form-group">
+            <label asp-for="Quantity"></label>
+            <input class="form-control" type="number" asp-for="Quantity" />
+        </fieldset>
+        <fieldset class="form-group">
+            <input asp-for="Id_Brands" hidden />
+            <label asp-for="Brands" class="form-label"></label>
+            <input type="text" list="myBrands" asp-for="Brands" class="form-control" />
+            <datalist id="myBrands">
+                @foreach (var item in ViewBag.BrandsStrName)
+                {
+                    <option>@item</option>
+                }
+            </datalist>
+        </fieldset>
+        <input type="hidden" asp-for="UrlBack" value="@ViewBag.UrlBack"/>
+        <fieldset class="form-group">
+
+            <label asp-for="Image" class="form-label"></label>
+            <input class="form-control" type="file" asp-for="Image" />
+            <label asp-for="URL_Downloud_Image" class="form-label"></label>
+            <input class="form-control" type="text" asp-for="URL_Downloud_Image" />
+
+
+            @if (Model.Path_image != null)
+            {
+                <input type="hidden" asp-for="Path_image" />
+                <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Path_image))" alt="">
+            }
+        </fieldset>
+        <fieldset class="form-group">
+            @if (ViewBag.UrlBack == null)
+            {
+                <a asp-action="Phones" class="btn btn-danger ">Back</a>
+            }
+            else
+            {
+                <a href="@ViewBag.UrlBack" class="btn btn-danger ">Back</a>
+            }
+            <input type="submit" value="Save" class="btn btn-dark btn-lg" />
+        </fieldset>
+    </form>
+</div>

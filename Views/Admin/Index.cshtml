@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.title = "Users";
+    int i = 1 + Model.PagingInfo.pageSize * (Model.PagingInfo.CurrentPage - 1);
+}
+@model AdminIndexModel
+
+@if (Model.Users == null)
+{
+    <div class="container ">
+        <h3 class="text-center">Not found User</h3>
+    </div>
+}
+else
+{
+    <div class="container ">
+        <div class="row">
+            <div id="aside" class="col-md-3">
+                <form asp-action="Index" asp-controller="Admin" method="get">
+                    <div class="aside">
+                        <h3 class="aside-title">Sorting</h3>
+
+                        <label asp-for="@Model.PagingInfo.pageSize">16</label>
+                        @if (Model.PagingInfo.pageSize == 16)
+                        {
+                            <input type="radio" asp-for="@Model.PagingInfo.pageSize" name="pageSize" value="16" checked>
+                        }
+                        else
+                        {
+                            <input type="radio" asp-for="@Model.PagingInfo.pageSize" name="pageSize" value="16">
+                        }
+
+                        <label asp-for="@Model.PagingInfo.pageSize">32</label>
+                        @if (Model.PagingInfo.pageSize == 32)
+                        {
+                            <input type="radio" asp-for="@Model.PagingInfo.pageSize" name="pageSize" value="32" checked>
+                        }
+                        else
+                        {
+                            <input type="radio" asp-for="@Model.PagingInfo.pageSize" name="pageSize" value="32">
+
+                        }
+                    </div>
+                    <button type="submit" class="btn btn-info btn-lg">Submit</button>
+                    <a asp-action="Create" class="btn btn-lg btn-dark">Create User</a>
+                </form>
+                <div class="aside">
+                    <h3 class="aside-title">Search</h3>
+                    <form asp-action="Index" asp-controller="Admin" method="get">
+                        <label for="Search">User Search</label>
+                        <input type="text" name="Search" />
+                        <button type="submit" class="btn btn-info btn-lg">Search</button>
+                    </form>
+                </div>
+
+            </div>
+
+
+
+            <div class="col-md-9">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>DateReg</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <th scope="row">@i</th>
+                                <td>@user.Email</td>
+                                <td>@user.UserName</td>
+                                <td>@user.Date.ToString("d", new CultureInfo("de-DE"))</td>
+                                <td>
+
+
+                                    <form asp-action="Delete" onsubmit="return check()" asp-route-id="@user.Id" asp-route-url="@Context.Request.Path/@Context.Request.QueryString" method="post">
+                                        <a asp-action="Edit" asp-route-id="@user.Id" asp-route-url="@Context.Request.Path/@Context.Request.QueryString" class="btn btn-lg btn-primary">Edit</a>
+                                        <button type="submit" class="btn btn-lg btn-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <ul page-model="@Model.PagingInfo" page-action-and-controller="@Context.Request.Path.Value" current-page="@Model.PagingInfo.CurrentPage" urlpage="@Context.Request.QueryString" urlcontext="@Context" class="store-pagination"></ul>
+
+    </div>
+    <script>
+        function check() {
+            return confirm("Delete this User?")
+        }
+    </script>
+}

@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = null;
+}
+@model Catalog
+
+
+<form method="get" asp-action="Phones" asp-controller="Home">
+    <div id="aside" class="col-md-3">
+        <!-- /aside Widget -->
+        <!-- aside Widget -->
+        <div class="aside">
+            <h3 class="aside-title">Product Show</h3>
+
+            <label asp-for="Sorting">Ascending</label>
+            @if (Model.Sorting)
+            {
+                <input type="radio" asp-for="Sorting" name="Sorting" value="true" checked>
+            }
+            else
+            {
+                <input type="radio" asp-for="Sorting" name="Sorting" value="true">
+            }
+
+        <label asp-for="pageSize">Descending</label>
+            @if (!Model.Sorting)
+            {
+                <input type="radio" asp-for="Sorting" name="Sorting" value="false" checked>
+            }
+            else
+            {
+                <input type="radio" asp-for="Sorting" name="Sorting" value="false">
+            }
+
+
+        </div>
+
+
+        <div class="aside">
+            <h3 class="aside-title">Sorting</h3>
+
+            <label asp-for="pageSize">16</label>
+            @if (Model.pageSize == 16)
+            {
+                <input type="radio" asp-for="pageSize" name="pageSize" value="16" checked>
+            }
+            else
+            {
+                <input type="radio" asp-for="pageSize" name="pageSize" value="16">
+            }
+
+            <label asp-for="pageSize">32</label>
+            @if (Model.pageSize == 32)
+            {
+                <input type="radio" asp-for="pageSize" name="pageSize" value="32" checked>
+            }
+            else
+            {
+                <input type="radio" asp-for="pageSize" name="pageSize" value="32">
+            }
+
+
+        </div>
+
+
+        <div class="aside">
+            <h3 class="aside-title">Price</h3>
+            <div class="price-filter">
+                <div id="price-slider"></div>
+                <div class="input-number price-min">
+                    <label asp-for="MinPrice">Min</label>
+                    <input asp-for="MinPrice" placeholder="@ViewBag.MinPrice" type="number">
+                </div>
+                <span>-</span>
+                <div class="input-number price-max">
+                    <label asp-for="MaxPrice">Max</label>
+                    <input asp-for="MaxPrice" placeholder="@ViewBag.MaxPrice" type="number">
+                </div>
+            </div>
+        </div>
+        <!-- /aside Widget -->
+        <!-- aside Widget -->
+        <div class="aside">
+            <h3 class="aside-title">Brand</h3>
+            <div class="checkbox-filter">
+                @foreach (var item in Model.ProductAndCount)
+                {
+
+                    <div class="input-checkbox">
+                        <input type="checkbox" asp-for="catalog[item.Key]">
+                        <label asp-for="catalog[item.Key]">
+                            <span></span>
+                            @item.Key (@item.Value)
+                        </label>
+                    </div>
+
+                }
+            </div>
+        </div>
+
+        <!-- /aside Widget -->
+
+        <a asp-action="Phones" class="btn btn-danger btn-lg">Reset</a>
+        <button type="submit" class="btn btn-dark btn-lg">Send</button>
+
+
+        @if (User.IsInRole("admin"))
+        {
+            <a asp-action="Create" asp-controller="Home" asp-route-Url="@Context.Request.Path/@Context.Request.QueryString" class=" btn  btn-info btn-lg ">Create</a>
+        }
+
+    </div>
+   
+       
+</form>

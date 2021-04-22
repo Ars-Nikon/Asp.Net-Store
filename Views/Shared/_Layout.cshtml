@@ -1,0 +1,215 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="ANSI">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>@ViewBag.title</title>
+
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="~/front/css/bootstrap.min.css" />
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="~/front/css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="~/front/css/slick-theme.css" />
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="~/front/css/nouislider.min.css" />
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="~/front/css/font-awesome.min.css">
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="~/front/css/style.css" />
+    <link rel="stylesheet" href="/front/css/BootstrapBtn.css">
+
+
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <!-- TOP HEADER -->
+        <div id="top-header">
+            <div class="container">
+                <ul class="header-links pull-left">
+                    <li><a asp-action="index" asp-controller="Home"><i class="fa fa-phone"></i>8989-232-82-35</a></li>
+                    <li><a asp-action="index" asp-controller="Home"><i class="fa fa-envelope-o"></i>nik.arseniy01@gmail.com</a></li>
+                    <li><a asp-action="index" asp-controller="Home"><i class="fa fa-telegram"></i>Ars_Nikon</a></li>
+                </ul>
+
+            </div>
+        </div>
+        <!-- /TOP HEADER -->
+        <!-- MAIN HEADER -->
+        <div id="header">
+            <!-- container -->
+
+            <div class="col-md-auto">
+                <div class="header-logo">
+                    <a asp-action="index" asp-controller="Home" class="logo">
+                        <img src="~/front/img/logo.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- LOGO -->
+                    <!-- /LOGO -->
+                    <!-- SEARCH BAR -->
+                    <!-- /SEARCH BAR -->
+                    <!-- ACCOUNT -->
+
+                    <div class="header-ctn">
+
+                        <div class="dropdown">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-action="Login" asp-controller="Account"><i class="fa fa-user-circle"></i>@await Component.InvokeAsync("UserIdentityName", User.Identity.Name)</a>
+                            }
+                            else
+                            {
+                                <a asp-action="Login" asp-controller="Account"><i class="fa fa-user-secret"></i>Log in</a>
+                            }
+                        </div>
+
+                        <!-- Cart -->
+                        <div class="dropdown">
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="dropdown-toggle" asp-action="Cart" asp-controller="Home">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Cart</span>
+                                    <div class="qty">@await Component.InvokeAsync("Cart", User.Identity.Name)</div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-toggle" asp-action="Cart" asp-controller="Home">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Cart</span>
+                                </a>
+                            }
+
+                        </div>
+                        <!-- /Cart -->
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" asp-action="MyOrder" asp-controller="Home">
+                                <i class="fa fa-history"></i>
+                                <span>My Order</span>
+                            </a>
+                        </div>
+
+                        <!-- Menu Toogle -->
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+
+                            </a>
+                        </div>
+                        <!-- /Menu Toogle -->
+
+                    </div>
+                    <!-- /ACCOUNT -->
+                </div>
+                <!-- row -->
+            </div>
+            <!-- container -->
+        </div>
+        <!-- /MAIN HEADER -->
+    </header>
+    <!-- /HEADER -->
+    <!-- NAVIGATION -->
+    <nav id="navigation">
+
+        <div class="container">
+
+            <div id="responsive-nav">
+
+                <ul class="main-nav nav navbar-nav">
+                    <li><a asp-action="index" asp-controller="Home">Home</a></li>
+
+
+
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li><a asp-action="index" asp-controller="Admin">AccountController</a></li>
+                    }
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li><a asp-action="OrdersController" asp-controller="Admin">OrdersController</a></li>
+                    }
+
+                    <li><a asp-action="Phones" asp-controller="Home">Phones</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+
+
+    @RenderBody();
+
+    <!-- /NAVIGATION -->
+    <!-- FOOTER -->
+    <footer id="footer">
+        <!-- top footer -->
+        <div class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">About Us</h3>
+                            <p>The site is a personal project for the portfolio and is not a commercial product</p>
+                            <ul class="footer-links">
+                                <li><a asp-action="index" asp-controller="Home"><i class="fa fa-phone"></i>8989-232-82-35</a></li>
+                                <li><a asp-action="index" asp-controller="Home"><i class="fa fa-envelope-o"></i>nik.arseniy01@gmail.com</a></li>
+                                <li><a asp-action="index" asp-controller="Home"><i class="fa fa-telegram"></i>Ars_Nikon</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                    <div class="clearfix visible-xs"></div>
+
+
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Service</h3>
+                            <ul class="footer-links">
+                                <li><a asp-action="Login" asp-controller="Account">My Account</a></li>
+                                <li><a asp-action="Cart" asp-controller="Home">View Cart</a></li>
+                                <li><a asp-action="MyOrder" asp-controller="Home">MyOrder</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /top footer -->
+        <!-- bottom footer -->
+        <!-- /bottom footer -->
+    </footer>
+    <!-- /FOOTER -->
+    <!-- jQuery Plugins -->
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script src="~/front/js/jquery.min.js"></script>
+    <script src="~/front/js/bootstrap.min.js"></script>
+    <script src="~/front/js/slick.min.js"></script>
+    <script src="~/front/js/nouislider.min.js"></script>
+    <script src="~/front/js/jquery.zoom.min.js"></script>
+    <script src="~/front/js/main.js"></script>
+
+</body>
+</html>

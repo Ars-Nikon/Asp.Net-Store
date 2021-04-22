@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.title = "Login";
+}
+@model ElectronicStore.Models.LoginModel
+
+<div class="container">
+    @if (User.Identity.IsAuthenticated)
+    {
+       
+        <form asp-action="EditAccount" method="post" asp-controller="Account">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.EditAccountFoUser.Email" class="control-label">Email</label>
+                <input type="email" asp-for="@Model.EditAccountFoUser.Email" autocomplete="off" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.EditAccountFoUser.Name" class="control-label">Name</label>
+                <input type="text" asp-for="@Model.EditAccountFoUser.Name" autocomplete="off" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.EditAccountFoUser.Password"></label><br />
+                <input type="password" id="password-input" autocomplete="off" asp-for="@Model.EditAccountFoUser.Password">
+                <label><input type="checkbox" class="password-checkbox">  Show Password</label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-info btn-lg" />
+            </div>
+            <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+            <script>
+                $('body').on('click', '.password-checkbox', function () {
+                    if ($(this).is(':checked')) {
+                        $('#password-input').attr('type', 'text');
+                    } else {
+                        $('#password-input').attr('type', 'password');
+                    }
+                });
+            </script>
+        </form>
+       
+        <form method="post" asp-controller="Account" asp-action="Logout">
+            <input type="submit" class="btn btn-danger btn-lg" value="Log out" />
+        </form>
+    }
+    else
+    {
+
+        <form method="post" asp-controller="Account" asp-action="Login"
+              asp-route-returnUrl="@Model.LoginViewModel.ReturnUrl">
+            <div asp-validation-summary="All"></div>
+            <div>
+                <label asp-for="@Model.LoginViewModel.Email"></label><br />
+                <input asp-for="@Model.LoginViewModel.Email" autocomplete="off" />
+                <span asp-validation-for="@Model.LoginViewModel.Email"></span>
+            </div>
+
+            <div>
+                <label asp-for="@Model.LoginViewModel.Password"></label><br />
+                <input type="password" id="password-input" autocomplete="off" asp-for="@Model.LoginViewModel.Password">
+                <label><input type="checkbox" class="password-checkbox">  Show Password</label>
+            </div>
+
+            <div>
+                <label asp-for="@Model.LoginViewModel.RememberMe"></label><br />
+                <input asp-for="@Model.LoginViewModel.RememberMe" autocomplete="off" />
+            </div>
+            <div>
+                <a asp-action="Register"  class="btn btn-dark btn-lg">Register</a>
+                <input class="btn btn-info btn-lg" type="submit" autocomplete="off" value="Sign in" />
+            </div>
+        </form>
+    }
+
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $('body').on('click', '.password-checkbox', function () {
+            if ($(this).is(':checked')) {
+                $('#password-input').attr('type', 'text');
+            } else {
+                $('#password-input').attr('type', 'password');
+            }
+        });
+    </script>
+</div>

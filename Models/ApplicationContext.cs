@@ -22,6 +22,9 @@ namespace ElectronicStore.Models
             Database.EnsureCreated();   // создаем базу данных при первом обращении
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(message => System.Diagnostics.Debug.WriteLine(message));
+        }
     }
-
 }

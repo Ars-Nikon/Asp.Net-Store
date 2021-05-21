@@ -236,7 +236,7 @@ namespace ElectronicStore.Controllers
                 phones = phones.OrderByDescending(x => x.Price);
             }
 
-            List<Phone> Products = phones.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            List<Phone> Products = phones.Skip((page - 1) * pageSize).Take(pageSize).Select(x=> new Phone { Price = x.Price, Id= x.Id, Path_image = x.Path_image,Name = x.Name}).ToList();
 
             return View(new PhonesAndCatalog { Sorting = Sorting, phones = Products, MaxPrice = MaxPrice, MinPrice = MinPrice, catalog = catalog, MinPriceForBrandList = MinPriceForBrandList, MaxPriceForBrandList = MaxPriceForBrandList, PagingInfo = new PagingInfo { CurrentPage = page, pageSize = pageSize, ItemsPerPage = pageSize, TotalItem = countpage } });
         }
@@ -369,12 +369,8 @@ namespace ElectronicStore.Controllers
             {
                 phone.Id_Brands = BrandsHave.Id;
             }
-
             db.Add(phone);
             db.SaveChanges();
-
-
-
             return RedirectToAction("Phones");
         }
 
